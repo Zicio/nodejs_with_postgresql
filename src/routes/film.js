@@ -3,9 +3,10 @@ import filmController from "../controllers/index.js";
 
 export const filmRouter = new Router();
 
-filmRouter.get("/films", filmController.getAllFilms);
+filmRouter.get("/films", filmController.getFilms);
 
-/*filmRouter.post("films", (req, res) => {
-  const film = req.body;
-  // res.end(JSON.stringify()) // TODO
-});*/
+filmRouter.post("/films", filmController.createFilm);
+
+filmRouter.put("/films", filmController.editFilm);
+
+filmRouter.delete("/films", filmController.deleteFilm);

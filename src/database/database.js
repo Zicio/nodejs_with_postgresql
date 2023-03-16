@@ -7,7 +7,7 @@ const pool = new Pool({
   password: process.env.DB_PASSWORD || "root",
   host: process.env.DB_HOST || "localhost",
   port: process.env.DB_PORT || 5432,
-  database: process.env.DB_NAME || "kinopoisk_lite",
+  database: process.env.DB_NAME || "postgres",
 });
 
 export default pool;

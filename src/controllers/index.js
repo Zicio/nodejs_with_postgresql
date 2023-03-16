@@ -1,12 +1,10 @@
-import getAllFilms from "./film/getAllFilms.js";
-import getOneFilm from "./film/getOneFilm.js";
+import getFilms from "./film/getFilms.js";
 import createFilm from "./film/createFilm.js";
 import deleteFilm from "./film/deleteFilm.js";
 import editFilm from "./film/editFilm.js";
 
 const filmController = {
-  getAllFilms,
-  getOneFilm,
+  getFilms,
   createFilm,
   deleteFilm,
   editFilm,

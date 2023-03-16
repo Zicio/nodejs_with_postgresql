@@ -40,16 +40,16 @@ export class Application {
         if (body) {
           req.body = JSON.parse(body);
         }
+        this.middlewares.forEach((middleware) => middleware(req, res));
+        const emitted = this.emitter.emit(
+          this._getRouteMask(req.pathname, req.method),
+          req,
+          res
+        );
+        if (!emitted) {
+          res.end();
+        }
       });
-      this.middlewares.forEach((middleware) => middleware(req, res));
-      const emitted = this.emitter.emit(
-        this._getRouteMask(req.pathname, req.method),
-        req,
-        res
-      );
-      if (!emitted) {
-        res.end();
-      }
     });
   }
 
