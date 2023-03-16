@@ -1,12 +1,9 @@
 import { Router } from "../framework/router.js";
+import filmController from "../controllers/index.js";
 
 export const filmRouter = new Router();
 
-const data = [{ name: "grib" }, { name: "abra" }];
-
-filmRouter.get("/films", (req, res) => {
-  res.send(data); // TODO
-});
+filmRouter.get("/films", filmController.getAllFilms);
 
 /*filmRouter.post("films", (req, res) => {
   const film = req.body;
