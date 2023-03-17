@@ -3,10 +3,9 @@ import pool from "../../database/database.js";
 const editFilm = async (req, res) => {
   const client = await pool.connect();
   const { film_name, year, genres } = req.body;
-  let film;
   try {
     await client.query(`BEGIN`);
-    film = await client.query(
+    const film = await client.query(
       `UPDATE films
        SET film_name = $1,
            year      = $2

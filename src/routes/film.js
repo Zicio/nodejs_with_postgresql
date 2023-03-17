@@ -1,5 +1,5 @@
 import { Router } from "../framework/router.js";
-import filmController from "../controllers/index.js";
+import { filmController } from "../controllers/index.js";
 
 export const filmRouter = new Router();
 
