@@ -1,35 +1,39 @@
-create table films
+CREATE TABLE films
 (
-    id integer generated always as identity
-        constraint films_pk
-            primary key,
-    film_name text not null,
-    year integer not null
+    id        integer GENERATED ALWAYS AS IDENTITY
+        CONSTRAINT films_pk
+            PRIMARY KEY,
+    film_name text    NOT NULL,
+    year      integer NOT NULL
 );
 
-alter table films owner to postgres;
+ALTER TABLE films
+    OWNER TO postgres;
 
-create table genres
+CREATE TABLE genres
 (
-    id integer generated always as identity
-        constraint genres_pk
-            primary key,
-    genre_name text not null
+    id         integer GENERATED ALWAYS AS IDENTITY
+        CONSTRAINT genres_pk
+            PRIMARY KEY,
+    genre_name text NOT NULL
 );
 
-alter table genres owner to postgres;
+ALTER TABLE genres
+    OWNER TO postgres;
 
-create table "film-genre"
+CREATE TABLE "film-genre"
 (
-    id integer generated always as identity
-        constraint "film-genre_pk"
-            primary key,
-    film_id integer not null
-        constraint "film-id___fk"
-            references films,
-    genre_id integer not null
-        constraint genre_id___fk
-            references genres
+    id       integer GENERATED ALWAYS AS IDENTITY
+        CONSTRAINT "film-genre_pk"
+            PRIMARY KEY,
+    film_id  integer NOT NULL
+        CONSTRAINT "film-id___fk"
+            REFERENCES films,
+    genre_id integer NOT NULL
+        CONSTRAINT genre_id___fk
+            REFERENCES genres
 );
 
-alter table "film-genre" owner to postgres;
+ALTER TABLE "film-genre"
+    OWNER TO postgres;
+

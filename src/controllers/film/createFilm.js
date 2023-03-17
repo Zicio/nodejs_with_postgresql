@@ -1,17 +1,50 @@
 import pool from "../../database/database.js";
 
 const createFilm = async (req, res) => {
-  const { film_name, year } = req.body;
-  const newFilm = await pool.query(
-    `INSERT INTO kinopoisk_lite.films (film_name, year)
-     VALUES ($1, $2)
-     RETURNING *`,
-    [film_name, year]
-  );
-  res.send({
-    message: `Запись успешно создана`,
-    data: newFilm.rows[0],
-  });
+  const client = await pool.connect();
+  let newFilm;
+  try {
+    await client.query(`BEGIN`);
+    const { film_name, year, genres } = req.body;
+    newFilm = await client.query(
+      `INSERT INTO films (film_name, year)
+       VALUES ($1, $2)
+       RETURNING *`,
+      [film_name, year]
+    );
+
+    const genresIdResult = await client.query(
+      `SELECT id
+       FROM genres
+       WHERE genre_name = ANY ($1)`,
+      [genres]
+    );
+    const genresIdArr = genresIdResult.rows.map((obj) => obj.id);
+
+    const values = genresIdArr
+      .map((id, index) => `($1, $${index + 2})`)
+      .join(", ");
+    const newFilm_genres = await client.query(
+      `INSERT INTO "film-genre" (film_id, genre_id)
+      VALUES
+      ${values} RETURNING *`,
+      [newFilm.rows[0].id, ...genresIdArr]
+    );
+    await client.query(`COMMIT`);
+
+    res.send({
+      message: `Запись успешно создана`,
+      data: newFilm.rows[0],
+    });
+  } catch (e) {
+    await client.query(`ROLLBACK`);
+    return res.send({
+      message: `Произошла ошибка в создании записи`,
+      error: e.message,
+    });
+  } finally {
+    client.release();
+  }
 };
 
 export default createFilm;
