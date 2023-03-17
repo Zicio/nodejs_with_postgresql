@@ -1,3 +1,5 @@
+CREATE DATABASE kinopoisk_lite;
+
 CREATE TABLE public.films
 (
     id        integer GENERATED ALWAYS AS IDENTITY
